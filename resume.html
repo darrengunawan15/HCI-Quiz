@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Resume Builder</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header>
+    <div class="container">
+      <h1>Online Resume Builder</h1>
+    </div>
+  </header>
+
+  <section id="form-section">
+    <div class="container">
+      <h2>Enter Your Information</h2>
+      <form id="resume-form">
+        <label for="name">Name: <span style="color: red;">*</span></label>
+        <input type="text" id="name" name="name" placeholder="Your name" required>
+
+        <label for="email">Email: <span style="color: red;">*</span></label>
+        <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
+
+        <label for="experience">Experience: <span style="color: red;">*</span></label>
+        <textarea id="experience" name="experience" placeholder="Your experience" required></textarea>
+
+        <label for="education">Education: <span style="color: red;">*</span></label>
+        <textarea id="education" name="education" placeholder="Your education" required></textarea>
+
+        <label for="skills">Skills: <span style="color: red;">*</span></label>
+        <input type="text" id="skills" name="skills" placeholder="Your skills" required>
+
+        <label for="template">Choose a Template:</label>
+        <select id="template" name="template">
+          <option value="template1">Template 1</option>
+          <option value="template2">Template 2</option>
+        </select>
+
+        <button type="button" id="generate-pdf">Generate PDF</button>
+      </form>
+    </div>
+  </section>
+
+  <section id="pdf-section" style="display:none;">
+    <div class="container">
+      <h2>Your Resume</h2>
+      <div id="resume-output"></div>
+      <button type="button" id="download-pdf">Download PDF</button>
+    </div>
+  </section>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $("#generate-pdf").click(function () {
+        var isValid = true;       
+
+        // Email validation
+        var email = $("#email").val();
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          alert("Enter a valid email address");
+          isValid = false;
+        }
+
+        if (isValid) {
+          // Gather user input
+          var name = $("#name").val();
+          var email = $("#email").val();
+          var experience = $("#experience").val();
+          var education = $("#education").val();
+          var skills = $("#skills").val();
+          var template = $("#template").val();
+
+          // Prepare the resume content
+          var resumeContent = `
+            <h3>${name}</h3>
+            <p>Email: ${email}</p>
+            <h4>Experience:</h4>
+            <p>${experience}</p>
+            <h4>Education:</h4>
+            <p>${education}</p>
+            <h4>Skills:</h4>
+            <p>${skills}</p>
+          `;
+
+          $("#resume-output").html(resumeContent);
+          $("#form-section").hide();
+          $("#pdf-section").show();
+        }
+      });
+
+      $("#download-pdf").click(function () {
+        alert("PDF file downloaded.");
+      });
+    });
+  </script>
+</body>
+
+</html>
